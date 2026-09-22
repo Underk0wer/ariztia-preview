@@ -193,6 +193,7 @@
   var heroInner = document.querySelector('.hero__inner');
   var header = document.querySelector('.header');
   var progress = document.getElementById('scrollProgress');
+  var campoSection = document.querySelector('.campo');
   var ticking = false;
 
   function onScroll() {
@@ -226,6 +227,13 @@
       updateLogoMorph();
 
       header.classList.toggle('is-scrolled', y > 10);
+
+      // móvil: al llegar a la estancia 3 el header (logo + menú) se esconde hacia arriba
+      var hideHeader = false;
+      if (campoSection && !desktopMQ.matches && !nav.classList.contains('is-open')) {
+        hideHeader = campoSection.getBoundingClientRect().top <= (header.offsetHeight || 0);
+      }
+      header.classList.toggle('is-hidden', hideHeader);
 
       var docH = document.documentElement.scrollHeight - window.innerHeight;
       if (progress) progress.style.transform = 'scaleX(' + (docH > 0 ? y / docH : 0).toFixed(4) + ')';
