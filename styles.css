@@ -381,10 +381,9 @@ a { color: inherit; }
 .intro__title {
   margin: 0 auto 30px;
   max-width: 320px;
-  font-family: var(--font-head);
-  font-stretch: 75%;
-  font-weight: 700;
-  font-size: clamp(26px, 8vw, 36px);
+  font-family: var(--font-script);    /* misma tipografía manuscrita que la segunda frase */
+  font-weight: 400;
+  font-size: clamp(32px, 9.6vw, 44px);
   line-height: 1.05;
 }
 .intro__olla {
@@ -942,12 +941,12 @@ body.no-scroll { overflow: hidden; }
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 96px;
+    gap: 72px;
   }
-  .intro__title { margin: 0; max-width: 520px; font-size: 48px; text-align: left; }
+  .intro__title { margin: 0; max-width: 520px; font-size: 58px; text-align: left; white-space: nowrap; }
   .intro__olla { gap: 30px; }
   .intro__olla img { width: 124px; }
-  .intro__script { font-size: 36px; }
+  .intro__script { font-size: 36px; white-space: nowrap; }
 
   /* Formulario */
   .form-card { padding: 60px 72px 68px; margin-bottom: -100px; max-width: 1080px; }
@@ -1023,7 +1022,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 @media (min-width: 1200px) {
-  .intro__title { font-size: 54px; max-width: 580px; }
+  .intro__title { font-size: 66px; max-width: 580px; }
   .intro__script { font-size: 40px; }
 }
 
