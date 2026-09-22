@@ -986,7 +986,7 @@ body.no-scroll { overflow: hidden; }
     font-stretch: 87.5%;          /* Bahnschrift SemiCondensed, como en la guía */
     line-height: 1.12;
   }
-  .campo__video { max-width: none; width: 100%; margin: -4.5vw 0 0; border-radius: 0; aspect-ratio: 16 / 10; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+  .campo__video { max-width: none; width: 90%; justify-self: start; margin: -4.5vw 0 0; border-radius: 0; aspect-ratio: 16 / 10; box-shadow: 0 16px 40px rgba(0,0,0,.35); }   /* 90%: deja aire al costado derecho */
   .campo__play { width: clamp(70px, 6vw, 100px); height: clamp(70px, 6vw, 100px); }
   .campo__play::after {
     left: 40%; top: 28%;
