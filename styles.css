@@ -267,7 +267,7 @@ a { color: inherit; }
   align-items: center;
   text-align: center;
 }
-.hero__title { margin: 0 0 84px; line-height: 1.1; }
+.hero__title { margin: 0 0 30px; line-height: 1.1; }
 .hero__title-line {
   display: block;
   font-family: var(--font-head);
@@ -300,7 +300,11 @@ a { color: inherit; }
   font-size: clamp(24px, 6.6vw, 29px);
   line-height: 1.15;
 }
-.hero__kit { margin: 26px 0 30px; padding: 0; }
+/* móvil: título → productos → frase → botones */
+.hero__copy { order: 1; }
+.hero__kit  { order: 2; margin: 0 0 22px; padding: 0; }
+.hero__cta  { order: 3; }
+.hero__actions { order: 4; margin-top: 26px; }
 .hero__kit img { width: 100%; height: auto; max-width: 380px; margin: 0 auto; }   /* móvil: productos más grandes */
 
 /* ---------- Buttons ---------- */
