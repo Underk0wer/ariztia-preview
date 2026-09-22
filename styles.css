@@ -302,9 +302,12 @@ a { color: inherit; }
 .hero__script {
   margin: 6px auto 0;
   max-width: 380px;
-  font-family: var(--font-script);
-  font-size: clamp(24px, 6.6vw, 29px);
-  line-height: 1.15;
+  font-family: var(--font-head);      /* condensada en negrita (la "otra" fuente) */
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: clamp(20px, 5.6vw, 25px);
+  line-height: 1.2;
+  text-wrap: balance;
 }
 /* móvil: título → productos → frase → botones */
 .hero__copy { order: 1; }
@@ -916,8 +919,8 @@ body.no-scroll { overflow: hidden; }
     line-height: 1.2;
   }
   .hero__script {
-    font-size: clamp(28px, 2.4vw, 46px);
-    line-height: 1.15;
+    font-size: clamp(26px, 2.2vw, 42px);
+    line-height: 1.2;
     max-width: none;
     margin: clamp(2px, .6vh, 8px) auto 0;
     white-space: nowrap;
