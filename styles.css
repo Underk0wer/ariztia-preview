@@ -774,7 +774,6 @@ a { color: inherit; }
   border-top: 14px solid transparent;
   border-bottom: 14px solid transparent;
 }
-.campo .btn--video { margin-top: 44px; }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -1004,7 +1003,6 @@ body.no-scroll { overflow: hidden; }
     border-left-width: .5em; border-top-width: .33em; border-bottom-width: .33em;
     font-size: clamp(34px, 3vw, 50px);
   }
-  .campo .btn--video { display: none; }   /* la guía no lleva botón en desktop */
   .br-desktop { display: block; height: 0; }  /* corte de línea de la cita según la guía */
 
   .modal__close--outside { top: -8px; right: -54px; }
