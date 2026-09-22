@@ -1106,19 +1106,20 @@ body.no-scroll { overflow: hidden; }
   align-items: center;
   color: #fff;
   text-align: center;
-  background: #3a2a14 url("img/ty-base-mobile.jpg") center / cover no-repeat;
+  background: #3a2a14 url("img/ty-base-mobile.jpg") center bottom / cover no-repeat;   /* Base_TY_Mobile: copa del árbol arriba, escena abajo */
 }
 .ty::before {
-  /* móvil: oscurece la parte alta para que el texto se lea sobre la foto */
+  /* móvil: oscurece un poco la copa del árbol para que el texto se lea */
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.35) 55%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.35) 35%, rgba(0,0,0,0) 52%);
 }
 .ty__inner {
   position: relative;
   width: 100%;
-  padding: 40px 26px 60vh;   /* el texto arriba; la foto (productos) se ve abajo */
+  padding: 0 26px 50vh;      /* bloque centrado en la mitad superior (copa del árbol); la escena queda abajo */
+  padding-bottom: 50svh;
   display: flex;
   flex-direction: column;
   align-items: center;
