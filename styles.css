@@ -988,7 +988,7 @@ body.no-scroll { overflow: hidden; }
     align-items: start;
     text-align: center;
   }
-  .campo__text { align-items: center; }
+  .campo__text { align-items: center; margin-top: clamp(-90px, -4.5vw, -40px); }   /* logo y textos más arriba, lejos de la franja blanca */
   .campo__logo { width: clamp(200px, 24.3vw, 480px); margin-top: .5vw; }
   .campo__script { font-size: clamp(24px, 2.55vw, 50px); margin-top: clamp(8px, 1.3vw, 26px); }
   .campo__quote {
