@@ -256,11 +256,10 @@ a { color: inherit; }
   position: absolute;
   inset: 0;
   z-index: 1;                   /* sobre el video de fondo */
-  background: rgba(0,0,0,.4);   /* pantalla negra al 40% (desktop) */
+  background: rgba(0,0,0,.4);   /* pantalla negra al 40% (desktop y móvil) */
 }
 @media (max-width: 899px) {
   .hero { display: flex; flex-direction: column; }
-  .hero::before { background: rgba(0,0,0,.7); }   /* móvil: negro plano al 70% */
   .hero__inner { flex: 1; justify-content: center; padding-top: 24px; padding-bottom: 36px; }
 }
 .hero__inner {
