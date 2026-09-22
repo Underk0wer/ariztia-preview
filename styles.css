@@ -1067,8 +1067,8 @@ body.no-scroll { overflow: hidden; }
 .hero__inner { transform: translate3d(0, var(--hero-shift, 0px), 0); opacity: var(--hero-fade, 1); }
 
 /* header: sombra al scrollear + barra de progreso */
-.header { transition: box-shadow .3s, top .35s ease; }
-@media (max-width: 899px) { .header.is-hidden { top: calc(-1 * var(--header-h) - 4px); box-shadow: none; } }   /* se desliza fuera de pantalla (sin transform: iOS + nav fija) */
+.header { transition: box-shadow .3s, transform .35s ease; }   /* no animar top: en Safari retrasa el sticky al empezar a bajar */
+@media (max-width: 899px) { .header.is-hidden { transform: translateY(calc(-100% - 4px)); box-shadow: none; pointer-events: none; } }
 .header.is-scrolled { box-shadow: 0 6px 24px rgba(0,0,0,.35); }
 .header__progress {
   position: absolute;
