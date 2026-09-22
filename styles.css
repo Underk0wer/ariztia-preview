@@ -305,8 +305,8 @@ a { color: inherit; }
   font-family: var(--font-head);      /* condensada en negrita (la "otra" fuente) */
   font-stretch: 75%;
   font-weight: 700;
-  font-size: clamp(20px, 5.6vw, 25px);
-  line-height: 1.2;
+  font-size: clamp(30px, 8.4vw, 38px);   /* móvil: +50% */
+  line-height: 1.15;
   text-wrap: balance;
 }
 /* móvil: título → productos → frase → botones */
