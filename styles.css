@@ -1097,4 +1097,83 @@ body.no-scroll { overflow: hidden; }
 }
 
 /* ---------- Thank you page (gracias.html) ---------- */
-.thanks { min-height: calc(100vh - var(--header-h)); background: var(--white); }
+.thanks { background: var(--white); }
+.ty {
+  position: relative;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  background: #3a2a14 url("img/ty-base-mobile.jpg") center / cover no-repeat;
+}
+.ty::before {
+  /* móvil: oscurece la parte alta para que el texto se lea sobre la foto */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.35) 55%, rgba(0,0,0,0) 100%);
+}
+.ty__inner {
+  position: relative;
+  width: 100%;
+  padding: 40px 26px 60vh;   /* el texto arriba; la foto (productos) se ve abajo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ty__title { margin: 0 0 22px; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+.ty__title-big, .ty__title-small { display: block; font-family: var(--font-script); font-weight: 400; }
+.ty__title-big   { font-size: clamp(44px, 12.5vw, 60px); }
+.ty__title-small { font-size: clamp(30px, 8.6vw, 42px); margin-top: 4px; }
+.ty__text {
+  margin: 0 0 28px;
+  font-family: var(--font-head);
+  font-stretch: 75%;
+  font-weight: 700;
+  font-size: clamp(20px, 5.6vw, 26px);
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+.ty__btn {
+  height: 58px;
+  padding: 0 44px;
+  font-size: 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  min-width: 220px;
+}
+
+@media (min-width: 900px) {
+  .ty {
+    text-align: left;
+    background-image: url("img/ty-base.jpg");
+    background-position: center;
+    align-items: stretch;
+  }
+  .ty::before { background: linear-gradient(90deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.1) 40%, rgba(0,0,0,0) 60%); }
+  .ty__inner {
+    /* guía IMG_THX (1920x1080): bloque de texto a la izquierda, entre el 17% y el 62% del alto */
+    max-width: none;
+    padding: clamp(60px, 10vh, 150px) 0 0 clamp(48px, 5.2vw, 100px);
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 6vh;
+  }
+  .ty__title { margin-bottom: clamp(20px, 3.2vh, 44px); line-height: .95; }
+  .ty__title-big   { font-size: clamp(72px, 6.4vw, 124px); }
+  .ty__title-small { font-size: clamp(50px, 4.4vw, 86px); margin-top: 0; padding-left: 0; }
+  .ty__text { font-size: clamp(26px, 2.25vw, 44px); line-height: 1.22; margin-bottom: clamp(26px, 4.4vh, 60px); text-align: center; }
+  .ty__btn {
+    height: clamp(60px, 4.2vw, 80px);
+    padding: 0 clamp(60px, 4.5vw, 90px);
+    font-size: clamp(26px, 2.1vw, 40px);
+    border-radius: 10px;
+    align-self: center;
+  }
+  /* centrar texto y botón bajo el título (como en la guía); el ancho lo da el título en una línea */
+  .ty__inner { align-items: center; width: max-content; max-width: 60%; }
+  .ty__title { text-align: center; }
+  .ty__title-big, .ty__title-small { white-space: nowrap; }
+}
