@@ -700,20 +700,12 @@ a { color: inherit; }
   inset: 0;
   background: rgba(0,0,0,.45);
 }
-.campo::after {
-  /* franja blanca inferior sobre la que "cae" el video */
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 360px;
-  background: #fff;
-}
 .campo__inner {
   position: relative;
   z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 130px var(--gutter) 60px;
+  padding: 130px var(--gutter) 70px;   /* la foto de fondo sigue por debajo del video */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -787,7 +779,7 @@ a { color: inherit; }
   z-index: 1;
   background: #fff;
   text-align: center;
-  padding: 10px var(--gutter) 40px;
+  padding: 36px var(--gutter) 40px;   /* el blanco es solo del footer */
   font-size: 13px;
   color: #666;
 }
@@ -982,10 +974,9 @@ body.no-scroll { overflow: hidden; }
   .btn--submit { height: 60px; font-size: 24px; padding: 0 46px; }
 
   /* Campo / comercial: dos columnas (guía Vista_3_Desktop, base 1487 px) */
-  .campo::after { height: clamp(90px, 9vw, 180px); }
   .campo__inner {
     max-width: none;
-    padding: clamp(150px, 13.6vw, 270px) 0 clamp(40px, 4vw, 80px) 0;
+    padding: clamp(150px, 13.6vw, 270px) 0 clamp(70px, 6.5vw, 130px) 0;   /* la foto corta más abajo que el video */
     display: grid;
     grid-template-columns: 40fr 60fr;
     column-gap: 0;
