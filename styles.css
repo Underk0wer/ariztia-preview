@@ -1071,3 +1071,6 @@ body.no-scroll { overflow: hidden; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* ---------- Thank you page (gracias.html) ---------- */
+.thanks { min-height: calc(100vh - var(--header-h)); background: var(--white); }

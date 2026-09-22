@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ariztía | Gracias por compartir tu sabor</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow+Semi+Condensed:wght@300;400;500;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-thanks">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="index.html" class="header__logo" id="headerLogo" aria-label="Ariztía">
+        <img src="img/logo-ariztia.png" alt="Ariztía">
+      </a>
+      <nav class="header__nav" id="nav">
+        <a href="index.html#comercial">Comercial</a>
+        <a href="#" class="js-legal" data-doc="bases">Bases legales</a>
+        <a href="#" class="js-legal" data-doc="privacidad">Privacidad</a>
+      </nav>
+      <button class="header__menu" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header__progress" id="scrollProgress" aria-hidden="true"></div>
+  </header>
+
+  <main id="top" class="thanks">
+    <!-- Thank you page: contenido pendiente de definir -->
+  </main>
+
+  <!-- MODAL LEGAL -->
+  <div class="modal" id="legalModal" hidden role="dialog" aria-modal="true">
+    <div class="modal__backdrop js-close-modal"></div>
+    <div class="modal__box modal__box--doc">
+      <button class="modal__close js-close-modal" aria-label="Cerrar">&times;</button>
+      <div class="modal__doc" id="legalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

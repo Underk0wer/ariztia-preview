@@ -106,8 +106,10 @@
     if (!videoRaf) videoRaf = window.requestAnimationFrame(stepVideo);
   }
 
-  loadHeroVideo();
-  desktopMQ.addEventListener('change', loadHeroVideo);
+  if (heroVideo) {
+    loadHeroVideo();
+    desktopMQ.addEventListener('change', loadHeroVideo);
+  }
 
   /* ---------- Logo del header -> logo grande de la estancia 3 (desktop) ---------- */
   var headerLogo = document.getElementById('headerLogo');
@@ -122,6 +124,7 @@
   function easeInOut(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
 
   function updateLogoMorph() {
+    if (!campoLogo || !headerLogo) return;          // páginas sin estancia 3 (ej. gracias.html)
     if (!desktopMQ.matches || reduceMotion) {
       if (morphState !== 'off') {
         logoGhost.style.display = 'none';
@@ -204,11 +207,11 @@
     ticking = true;
     window.requestAnimationFrame(function () {
       var y = window.scrollY || window.pageYOffset;
-      var heroH = hero.offsetHeight || 1;
+      var heroH = (hero && hero.offsetHeight) || 1;
       // 0 = home completo a la vista, 1 = la sección 2 ya cubrió todo el home
       var p = Math.min(y / heroH, 1);
 
-      if (!reduceMotion) {
+      if (!reduceMotion && hero && heroInner) {
         if (videoReady) {
           hero.style.backgroundPositionY = '';
         } else {
@@ -226,7 +229,7 @@
       header.classList.toggle('is-scrolled', y > 10);
 
       var docH = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.transform = 'scaleX(' + (docH > 0 ? y / docH : 0).toFixed(4) + ')';
+      if (progress) progress.style.transform = 'scaleX(' + (docH > 0 ? y / docH : 0).toFixed(4) + ')';
 
       ticking = false;
     });
@@ -313,9 +316,11 @@
   /* ---------- Upload: mostrar nombre del archivo ---------- */
   var fileInput = document.getElementById('imagen');
   var uploadName = document.getElementById('uploadName');
-  fileInput.addEventListener('change', function () {
-    uploadName.textContent = fileInput.files.length ? fileInput.files[0].name : '';
-  });
+  if (fileInput) {
+    fileInput.addEventListener('change', function () {
+      uploadName.textContent = fileInput.files.length ? fileInput.files[0].name : '';
+    });
+  }
 
   /* ---------- Textareas autoajustables ---------- */
   document.querySelectorAll('.form textarea').forEach(function (ta) {
@@ -327,6 +332,7 @@
 
   /* ---------- Formulario en 2 pasos: navegación, validación y envío ---------- */
   var form = document.getElementById('recipeForm');
+  if (!form) return;                                 // páginas sin formulario (ej. gracias.html)
   var formSuccess = document.getElementById('formSuccess');
   var stepsBar = document.getElementById('steps');
   var stepPanels = form.querySelectorAll('.step');
@@ -435,9 +441,7 @@
     // var data = new FormData(form);
     // fetch('/api/recetas', { method: 'POST', body: data })
 
-    stepsBar.hidden = true;
-    form.hidden = true;
-    formSuccess.hidden = false;
-    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Thank you page
+    window.location.href = 'gracias.html';
   });
 })();
