@@ -99,6 +99,22 @@
 
   function easeInOut(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
 
+  // El logo fantasma va por encima de todo (para poder salir del header), así que la zona que
+  // coincide con la tarjeta del formulario se recorta: parece pasar por detrás y emerger bajo ella.
+  var formCard = document.querySelector('.form-card');
+  function clipBehindCard(x, y, w, h) {
+    if (!formCard) return 'none';
+    var C = formCard.getBoundingClientRect();
+    var l = Math.max(x, C.left), t = Math.max(y, C.top);
+    var r = Math.min(x + w, C.right), b = Math.min(y + h, C.bottom);
+    if (r <= l || b <= t) return 'none';
+    l -= x; r -= x; t -= y; b -= y;   // a coordenadas del propio logo
+    return 'polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ' +
+      l.toFixed(1) + 'px ' + t.toFixed(1) + 'px, ' + l.toFixed(1) + 'px ' + b.toFixed(1) + 'px, ' +
+      r.toFixed(1) + 'px ' + b.toFixed(1) + 'px, ' + r.toFixed(1) + 'px ' + t.toFixed(1) + 'px, ' +
+      l.toFixed(1) + 'px ' + t.toFixed(1) + 'px)';
+  }
+
   function updateLogoMorph() {
     if (!campoLogo || !headerLogo) return;          // páginas sin estancia 3 (ej. gracias.html)
     if (!desktopMQ.matches || reduceMotion) {
@@ -142,6 +158,7 @@
     logoGhost.style.display = 'block';
     logoGhost.style.width = w.toFixed(1) + 'px';
     logoGhost.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+    logoGhost.style.clipPath = clipBehindCard(x, y, w, w * (B.height / B.width));
     headerLogo.classList.add('is-morphing');
     campoLogo.classList.add('is-pending');
     morphState = 'moving';
