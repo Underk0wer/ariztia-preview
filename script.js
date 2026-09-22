@@ -51,64 +51,40 @@
   var heroVideo = document.getElementById('heroVideo');
   var desktopMQ = window.matchMedia('(min-width: 900px)');
   var videoReady = false;
-  var videoTarget = 0;
-  var videoRaf = null;
+  var heroVisible = true;
+  var heroVariant = '';
 
-  var videoLoading = false;
-  var HERO_VIDEO_SRC = 'video/fondo-desktop.mp4';
-
-  function attachHeroVideo(src) {
-    heroVideo.addEventListener('loadeddata', function () {
-      videoReady = true;
-      heroVideo.pause();
-      heroVideo.classList.add('is-ready');
-      onScroll();
-    }, { once: true });
-    heroVideo.src = src;
-    heroVideo.load();
-  }
-
-  // Descarga completa como blob: así el video es 100% buscable aunque el servidor
-  // no soporte peticiones por rango, y no hay esperas al saltar de cuadro.
+  // Video de fondo en loop: una fuente para desktop y otra para mobile
   function loadHeroVideo() {
-    if (videoReady || videoLoading || !desktopMQ.matches || !heroVideo) return;
-    videoLoading = true;
-    if (window.fetch && window.URL && URL.createObjectURL) {
-      fetch(HERO_VIDEO_SRC)
-        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
-        .then(function (blob) { attachHeroVideo(URL.createObjectURL(blob)); })
-        .catch(function () { attachHeroVideo(HERO_VIDEO_SRC); });
-    } else {
-      attachHeroVideo(HERO_VIDEO_SRC);
-    }
+    if (!heroVideo) return;
+    var variant = desktopMQ.matches ? 'desktop' : 'mobile';
+    if (variant === heroVariant) return;
+    heroVariant = variant;
+    videoReady = false;
+    heroVideo.classList.remove('is-ready');
+    heroVideo.poster = heroVideo.getAttribute('data-poster-' + variant);
+    heroVideo.src = heroVideo.getAttribute('data-src-' + variant);
+    heroVideo.load();
+    playHeroVideo();
   }
 
-  // Interpola currentTime hacia el objetivo para que el avance sea suave
-  function stepVideo() {
-    if (heroVideo.seeking) {            // esperar a que termine el seek anterior
-      videoRaf = window.requestAnimationFrame(stepVideo);
-      return;
-    }
-    var cur = heroVideo.currentTime;
-    var diff = videoTarget - cur;
-    if (Math.abs(diff) < 0.004) {
-      heroVideo.currentTime = videoTarget;
-      videoRaf = null;
-      return;
-    }
-    heroVideo.currentTime = cur + diff * 0.3;
-    videoRaf = window.requestAnimationFrame(stepVideo);
-  }
-
-  function scrubHeroVideo(progress) {
-    if (!videoReady || !heroVideo.duration) return;
-    videoTarget = Math.min(Math.max(progress, 0), 1) * (heroVideo.duration - 0.02);
-    if (!videoRaf) videoRaf = window.requestAnimationFrame(stepVideo);
+  function playHeroVideo() {
+    if (!heroVideo || reduceMotion || !heroVisible) return;
+    var p = heroVideo.play();
+    if (p && p.catch) p.catch(function () {});   // autoplay bloqueado: queda el poster
   }
 
   if (heroVideo) {
+    heroVideo.addEventListener('loadeddata', function () {
+      videoReady = true;
+      heroVideo.classList.add('is-ready');
+    });
     loadHeroVideo();
     desktopMQ.addEventListener('change', loadHeroVideo);
+    if (reduceMotion) heroVideo.removeAttribute('autoplay');
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) heroVideo.pause(); else playHeroVideo();
+    });
   }
 
   /* ---------- Logo del header -> logo grande de la estancia 3 (desktop) ---------- */
@@ -221,8 +197,14 @@
         heroInner.style.setProperty('--hero-fade', (1 - p * 1.1).toFixed(3));
       }
 
-      // el video avanza con el scroll y se detiene cuando el home deja de verse
-      scrubHeroVideo(reduceMotion ? 1 : p);
+      // pausar el loop cuando el home ya no se ve (ahorra batería/CPU)
+      if (heroVideo) {
+        var visible = p < 1;
+        if (visible !== heroVisible) {
+          heroVisible = visible;
+          if (visible) playHeroVideo(); else heroVideo.pause();
+        }
+      }
 
       updateLogoMorph();
 
