@@ -105,14 +105,19 @@
   function clipBehindCard(x, y, w, h) {
     if (!formCard) return 'none';
     var C = formCard.getBoundingClientRect();
-    var l = Math.max(x, C.left), t = Math.max(y, C.top);
-    var r = Math.min(x + w, C.right), b = Math.min(y + h, C.bottom);
-    if (r <= l || b <= t) return 'none';
-    l -= x; r -= x; t -= y; b -= y;   // a coordenadas del propio logo
-    return 'polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ' +
-      l.toFixed(1) + 'px ' + t.toFixed(1) + 'px, ' + l.toFixed(1) + 'px ' + b.toFixed(1) + 'px, ' +
-      r.toFixed(1) + 'px ' + b.toFixed(1) + 'px, ' + r.toFixed(1) + 'px ' + t.toFixed(1) + 'px, ' +
-      l.toFixed(1) + 'px ' + t.toFixed(1) + 'px)';
+    if (x + w <= C.left || x >= C.right || y + h <= C.top || y >= C.bottom) return 'none';
+    // radio real de las esquinas de la tarjeta, para que el recorte siga su forma redondeada
+    var r = parseFloat(getComputedStyle(formCard).borderTopLeftRadius) || 0;
+    r = Math.min(r, C.width / 2, C.height / 2);
+    var f = function (n) { return n.toFixed(1); };
+    var l = C.left - x, t = C.top - y, rt = C.right - x, bt = C.bottom - y;   // tarjeta en coords del logo
+    var card = 'M' + f(l + r) + ' ' + f(t) + ' H' + f(rt - r) +
+      ' A' + f(r) + ' ' + f(r) + ' 0 0 1 ' + f(rt) + ' ' + f(t + r) + ' V' + f(bt - r) +
+      ' A' + f(r) + ' ' + f(r) + ' 0 0 1 ' + f(rt - r) + ' ' + f(bt) + ' H' + f(l + r) +
+      ' A' + f(r) + ' ' + f(r) + ' 0 0 1 ' + f(l) + ' ' + f(bt - r) + ' V' + f(t + r) +
+      ' A' + f(r) + ' ' + f(r) + ' 0 0 1 ' + f(l + r) + ' ' + f(t) + ' Z';
+    var outer = 'M0 0 H' + f(w) + ' V' + f(h) + ' H0 Z';
+    return 'path(evenodd, "' + outer + ' ' + card + '")';
   }
 
   function updateLogoMorph() {
