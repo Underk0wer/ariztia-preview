@@ -287,17 +287,12 @@
       title: 'Bases legales de la promoción',
       body: '<h3>1. Organizador</h3><p>Ariztía organiza la promoción "Al recetario del campo chileno le falta tu sabor", válida en todo el territorio nacional.</p>' +
             '<h3>2. Participación</h3><p>Podrán participar personas naturales mayores de 18 años, residentes en Chile, que completen el formulario del sitio con una receta original y una fotografía.</p>' +
-            '<h3>3. Premios</h3><p>Se sortearán 20 Ollas Ariztía entre las recetas válidas recibidas durante la vigencia de la promoción.</p>' +
+            '<h3>3. Premios</h3><p>Se sortearán 3 Ollas + productos Ariztía entre las recetas válidas recibidas durante la vigencia de la promoción.</p>' +
             '<h3>4. Vigencia</h3><p>Texto pendiente de definición por el equipo legal.</p>'
     },
     terminos: {
       title: 'Términos y condiciones del sitio web',
       body: '<p>El uso de este sitio implica la aceptación de los presentes términos y condiciones. Contenido pendiente de definición por el equipo legal.</p>'
-    },
-    privacidad: {
-      title: 'Política de privacidad',
-      body: '<p>Los datos personales entregados en este formulario serán utilizados exclusivamente para gestionar la participación en la promoción, contactar a los ganadores y publicar las recetas seleccionadas.</p>' +
-            '<p>Contenido pendiente de definición por el equipo legal.</p>'
     }
   };
 
