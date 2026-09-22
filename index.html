@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ariztía | Al recetario del campo chileno le falta tu sabor</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="¿Tienes una receta con sabor a campo chileno? Compártela y participa por una de las 20 Ollas Ariztía.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow+Semi+Condensed:wght@300;400;500;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#top" class="header__logo" id="headerLogo" aria-label="Ariztía">
+        <img src="img/logo-ariztia.png" alt="Ariztía">
+      </a>
+      <nav class="header__nav" id="nav">
+        <a href="#participa">Participa</a>
+        <a href="#comercial">Comercial</a>
+        <a href="#" class="js-legal" data-doc="bases">Bases legales</a>
+        <a href="#" class="js-legal" data-doc="privacidad">Privacidad</a>
+      </nav>
+      <button class="header__menu" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header__progress" id="scrollProgress" aria-hidden="true"></div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <!-- Video de fondo (solo desktop): se reproduce con el scroll -->
+      <video class="hero__video" id="heroVideo" muted playsinline preload="auto"
+             poster="video/fondo-desktop-poster.jpg" aria-hidden="true" tabindex="-1"></video>
+      <div class="hero__inner">
+        <div class="hero__copy anim" data-anim="up">
+          <h1 class="hero__title">
+            <span class="hero__title-line">Al recetario del campo chileno</span>
+            <span class="hero__title-script">le falta tu sabor</span>
+          </h1>
+        </div>
+
+        <div class="hero__cta anim" data-anim="up" style="--d:.2s">
+          <p class="hero__question">¿Tienes una receta con sabor a campo chileno?</p>
+          <p class="hero__script">Compártela y participa por una de las 20 Ollas Ariztía</p>
+        </div>
+
+        <div class="hero__kit anim" data-anim="zoom" style="--d:.1s">
+          <picture>
+            <source srcset="img/productos.webp" type="image/webp">
+            <img src="img/productos.png" alt="Olla Ariztía con pocillos, cuchara de madera y productos Ariztía Filetillo de Pechuga y MidLegs" width="2000" height="860">
+          </picture>
+        </div>
+
+        <div class="hero__actions anim" data-anim="up" style="--d:.3s">
+          <button class="btn btn--video js-open-video" type="button" id="heroCta">
+            Ver comercial <span class="btn__play" aria-hidden="true"></span>
+          </button>
+          <a class="btn btn--video btn--participar" href="#participa">Participar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO FORMULARIO -->
+    <section class="intro" id="participa">
+      <div class="intro__inner">
+        <h2 class="intro__title anim" data-anim="up">Ingresa tu receta con sabor a&nbsp;campo chileno</h2>
+        <div class="intro__olla anim" data-anim="left" style="--d:.15s">
+          <img src="img/olla-icono.png" alt="" aria-hidden="true">
+          <p class="intro__script">y participa<br>por la olla Ariztía</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="form-section">
+      <div class="form-card anim" data-anim="up">
+        <form class="form" id="recipeForm" novalidate>
+
+          <!-- Indicador de pasos -->
+          <ol class="steps" id="steps" aria-label="Pasos del formulario">
+            <li class="steps__item is-active" data-step="1">
+              <button type="button" class="steps__btn" aria-current="step">
+                <span class="steps__num" aria-hidden="true">1</span>
+                <span class="steps__label">Tus datos</span>
+              </button>
+            </li>
+            <li class="steps__line" aria-hidden="true"></li>
+            <li class="steps__item" data-step="2">
+              <button type="button" class="steps__btn">
+                <span class="steps__num" aria-hidden="true">2</span>
+                <span class="steps__label">Tu receta</span>
+              </button>
+            </li>
+          </ol>
+
+          <!-- PASO 1: datos de contacto -->
+          <fieldset class="step is-active" data-step="1">
+            <legend class="step__title">Paso 1 de 2 · Tus datos</legend>
+            <div class="form__grid">
+              <div class="field field--full">
+                <label for="nombre">Nombre y apellido <span class="req">*</span></label>
+                <input type="text" id="nombre" name="nombre" required autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="email">E-mail <span class="req">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email" inputmode="email">
+              </div>
+              <div class="field">
+                <label for="telefono">Teléfono <span class="req">*</span></label>
+                <input type="tel" id="telefono" name="telefono" required autocomplete="tel" inputmode="tel" placeholder="+56 9 1234 5678">
+              </div>
+            </div>
+            <p class="form__note"><span class="req">*</span> Los datos serán usados solo para contactarte en caso de que seas ganador.</p>
+
+            <p class="form__error" id="formError1" hidden>Completa los campos obligatorios para continuar.</p>
+
+            <div class="form__actions">
+              <button type="button" class="btn btn--submit js-next">Siguiente</button>
+            </div>
+          </fieldset>
+
+          <!-- PASO 2: la receta -->
+          <fieldset class="step" data-step="2" hidden>
+            <legend class="step__title">Paso 2 de 2 · Tu receta</legend>
+            <div class="form__grid">
+              <div class="field">
+                <label for="nombreReceta">Nombre de la receta <span class="req">*</span></label>
+                <input type="text" id="nombreReceta" name="nombreReceta" required>
+              </div>
+              <div class="field field--imagen">
+                <label for="imagen">Subir imagen <span class="opt">(opcional)</span></label>
+                <div class="upload">
+                  <input type="file" id="imagen" name="imagen" accept="image/*">
+                  <span class="upload__name" id="uploadName"></span>
+                  <img src="img/icon-upload.png" alt="" aria-hidden="true" class="upload__icon">
+                </div>
+              </div>
+              <div class="field">
+                <label for="ingredientes">Ingredientes <span class="req">*</span></label>
+                <textarea id="ingredientes" name="ingredientes" rows="3" required placeholder="Un ingrediente por línea"></textarea>
+              </div>
+              <div class="field">
+                <label for="preparacion">Preparación <span class="req">*</span></label>
+                <textarea id="preparacion" name="preparacion" rows="3" required placeholder="Describe paso a paso cómo se prepara"></textarea>
+              </div>
+              <div class="field field--third">
+                <label for="personas">Cantidad de personas <span class="req">*</span></label>
+                <div class="select">
+                  <select id="personas" name="personas" required>
+                    <option value="" selected disabled>Selecciona</option>
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                    <option value="5">5 personas</option>
+                    <option value="6">6 personas</option>
+                    <option value="7">7 personas</option>
+                    <option value="8">8 personas</option>
+                    <option value="9">9 personas</option>
+                    <option value="10">10 personas</option>
+                    <option value="11">11 personas</option>
+                    <option value="12">12 personas</option>
+                    <option value="13">13 personas</option>
+                    <option value="14">14 personas</option>
+                    <option value="15">15 personas</option>
+                    <option value="16">16 personas</option>
+                    <option value="17">17 personas</option>
+                    <option value="18">18 personas</option>
+                    <option value="19">19 personas</option>
+                    <option value="20">20 personas</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field field--third field--time" role="group" aria-labelledby="tiempoPrepLabel">
+                <span class="field__label" id="tiempoPrepLabel">Tiempo de preparación <span class="req">*</span></span>
+                <div class="time">
+                  <div class="select">
+                    <select id="tiempoPrepHoras" name="tiempoPrepHoras" class="js-time" data-group="tiempoPrep" aria-label="Tiempo de preparación: horas" required>
+                    <option value="" selected disabled>Horas</option>
+                    <option value="0">0 h</option>
+                    <option value="1">1 h</option>
+                    <option value="2">2 h</option>
+                    <option value="3">3 h</option>
+                    <option value="4">4 h</option>
+                    <option value="5">5 h</option>
+                    <option value="6">6 h</option>
+                    <option value="7">7 h</option>
+                    <option value="8">8 h</option>
+                    <option value="9">9 h</option>
+                    <option value="10">10 h</option>
+                    <option value="11">11 h</option>
+                    <option value="12">12 h</option>
+                    </select>
+                  </div>
+                  <div class="select">
+                    <select id="tiempoPrepMinutos" name="tiempoPrepMinutos" class="js-time" data-group="tiempoPrep" aria-label="Tiempo de preparación: minutos" required>
+                    <option value="" selected disabled>Minutos</option>
+                    <option value="0">0 min</option>
+                    <option value="5">5 min</option>
+                    <option value="10">10 min</option>
+                    <option value="15">15 min</option>
+                    <option value="20">20 min</option>
+                    <option value="25">25 min</option>
+                    <option value="30">30 min</option>
+                    <option value="35">35 min</option>
+                    <option value="40">40 min</option>
+                    <option value="45">45 min</option>
+                    <option value="50">50 min</option>
+                    <option value="55">55 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field field--third field--time" role="group" aria-labelledby="tiempoCoccionLabel">
+                <span class="field__label" id="tiempoCoccionLabel">Tiempo de cocción <span class="req">*</span></span>
+                <div class="time">
+                  <div class="select">
+                    <select id="tiempoCoccionHoras" name="tiempoCoccionHoras" class="js-time" data-group="tiempoCoccion" aria-label="Tiempo de cocción: horas" required>
+                    <option value="" selected disabled>Horas</option>
+                    <option value="0">0 h</option>
+                    <option value="1">1 h</option>
+                    <option value="2">2 h</option>
+                    <option value="3">3 h</option>
+                    <option value="4">4 h</option>
+                    <option value="5">5 h</option>
+                    <option value="6">6 h</option>
+                    <option value="7">7 h</option>
+                    <option value="8">8 h</option>
+                    <option value="9">9 h</option>
+                    <option value="10">10 h</option>
+                    <option value="11">11 h</option>
+                    <option value="12">12 h</option>
+                    </select>
+                  </div>
+                  <div class="select">
+                    <select id="tiempoCoccionMinutos" name="tiempoCoccionMinutos" class="js-time" data-group="tiempoCoccion" aria-label="Tiempo de cocción: minutos" required>
+                    <option value="" selected disabled>Minutos</option>
+                    <option value="0">0 min</option>
+                    <option value="5">5 min</option>
+                    <option value="10">10 min</option>
+                    <option value="15">15 min</option>
+                    <option value="20">20 min</option>
+                    <option value="25">25 min</option>
+                    <option value="30">30 min</option>
+                    <option value="35">35 min</option>
+                    <option value="40">40 min</option>
+                    <option value="45">45 min</option>
+                    <option value="50">50 min</option>
+                    <option value="55">55 min</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field field--full">
+                <label for="historia">Historia detrás de la receta <span class="req">*</span></label>
+                <textarea id="historia" name="historia" rows="2" required></textarea>
+              </div>
+            </div>
+
+            <div class="form__legal">
+              <fieldset class="check">
+                <legend>Política de privacidad <span class="req">*</span></legend>
+                <label class="check__label">
+                  <input type="checkbox" name="privacidad" required>
+                  <span class="check__box" aria-hidden="true"></span>
+                  <span>Autorizo el uso de mis datos personales para las finalidades informadas acá, según la <a href="#" class="js-legal" data-doc="privacidad">Política de Privacidad</a>.</span>
+                </label>
+              </fieldset>
+
+              <fieldset class="check">
+                <legend>Bases legales y T&amp;C <span class="req">*</span></legend>
+                <label class="check__label">
+                  <input type="checkbox" name="bases" required>
+                  <span class="check__box" aria-hidden="true"></span>
+                  <span>Acepto las <a href="#" class="js-legal" data-doc="bases">Bases Legales</a> de la promoción y los <a href="#" class="js-legal" data-doc="terminos">Términos y Condiciones</a> del sitio web.</span>
+                </label>
+              </fieldset>
+            </div>
+
+            <p class="form__error" id="formError2" hidden>Completa todos los campos obligatorios para enviar tu receta.</p>
+
+            <div class="form__actions">
+              <button type="button" class="btn btn--ghost js-prev">Atrás</button>
+              <button type="submit" class="btn btn--submit">Enviar</button>
+            </div>
+          </fieldset>
+        </form>
+
+        <div class="form__success" id="formSuccess" hidden>
+          <img src="img/olla-icono.png" alt="" aria-hidden="true">
+          <h3>¡Gracias por compartir tu sabor!</h3>
+          <p>Tu receta fue enviada. Ya estás participando por una de las 20 Ollas Ariztía.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAMPO / COMERCIAL -->
+    <section class="campo" id="comercial">
+      <div class="campo__inner">
+        <div class="campo__text">
+          <img class="campo__logo" id="campoLogo" src="img/logo-ariztia.png" alt="Ariztía">
+          <p class="campo__script anim" data-anim="up" style="--d:.15s">El sabor del campo chileno</p>
+
+          <blockquote class="campo__quote anim" data-anim="fade" style="--d:.25s">
+            “La olla siempre está llena sin que nadie<span class="br-desktop"> </span>haya contado, cuánta gente ha convidado…”
+          </blockquote>
+        </div>
+
+        <button class="campo__video js-open-video anim" data-anim="up" type="button" aria-label="Ver comercial">
+          <video class="campo__loop" id="campoLoop" muted loop playsinline preload="none"
+                 poster="img/video-thumb.jpg" data-src="video/loop-comercial.mp4" aria-hidden="true" tabindex="-1"></video>
+          <span class="campo__play" aria-hidden="true"></span>
+        </button>
+
+        <button class="btn btn--video js-open-video anim" data-anim="up" style="--d:.15s" type="button">
+          Ver comercial <span class="btn__play" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer anim" data-anim="fade">
+    <img src="img/logo-ariztia-sm.png" alt="Ariztía">
+    <p>© 2026 Ariztía. Todos los derechos reservados.</p>
+    <nav>
+      <a href="#" class="js-legal" data-doc="bases">Bases legales</a>
+      <a href="#" class="js-legal" data-doc="terminos">Términos y condiciones</a>
+      <a href="#" class="js-legal" data-doc="privacidad">Política de privacidad</a>
+    </nav>
+  </footer>
+
+  <!-- MODAL VIDEO -->
+  <div class="modal" id="videoModal" hidden role="dialog" aria-modal="true" aria-label="Comercial Ariztía">
+    <div class="modal__backdrop js-close-modal"></div>
+    <div class="modal__box modal__box--video">
+      <button class="modal__close modal__close--outside js-close-modal" aria-label="Cerrar">&times;</button>
+      <div class="modal__video">
+        <iframe id="videoFrame" title="Comercial Ariztía" src="about:blank"
+                data-src="https://www.youtube-nocookie.com/embed/ZAkoXcKYwYE?autoplay=1&rel=0&modestbranding=1&playsinline=1"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LEGAL -->
+  <div class="modal" id="legalModal" hidden role="dialog" aria-modal="true">
+    <div class="modal__backdrop js-close-modal"></div>
+    <div class="modal__box modal__box--doc">
+      <button class="modal__close js-close-modal" aria-label="Cerrar">&times;</button>
+      <div class="modal__doc" id="legalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

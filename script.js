@@ -1,0 +1,443 @@
+(function () {
+  'use strict';
+
+  /* ---------- Menú móvil ---------- */
+  var menuBtn = document.getElementById('menuBtn');
+  var nav = document.getElementById('nav');
+
+  function closeMenu() {
+    nav.classList.remove('is-open');
+    menuBtn.classList.remove('is-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll');
+  }
+
+  menuBtn.addEventListener('click', function () {
+    var open = !nav.classList.contains('is-open');
+    nav.classList.toggle('is-open', open);
+    menuBtn.classList.toggle('is-open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('no-scroll', open);
+  });
+
+  nav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* ---------- Animaciones de scroll: entrada y salida ---------- */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var animEls = document.querySelectorAll('.anim');
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var el = entry.target;
+        if (entry.isIntersecting) {
+          el.classList.remove('is-out-top');
+          el.classList.add('is-in');
+        } else {
+          el.classList.remove('is-in');
+          // si salió por arriba, animar hacia arriba; si salió por abajo, volver al estado inicial
+          el.classList.toggle('is-out-top', entry.boundingClientRect.top < 0);
+        }
+      });
+    }, { threshold: 0, rootMargin: '-8% 0px -8% 0px' });
+    animEls.forEach(function (el) { io.observe(el); });
+  } else {
+    animEls.forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  /* ---------- Video de fondo del hero (desktop): avanza con el scroll ---------- */
+  var heroVideo = document.getElementById('heroVideo');
+  var desktopMQ = window.matchMedia('(min-width: 900px)');
+  var videoReady = false;
+  var videoTarget = 0;
+  var videoRaf = null;
+
+  var videoLoading = false;
+  var HERO_VIDEO_SRC = 'video/fondo-desktop.mp4';
+
+  function attachHeroVideo(src) {
+    heroVideo.addEventListener('loadeddata', function () {
+      videoReady = true;
+      heroVideo.pause();
+      heroVideo.classList.add('is-ready');
+      onScroll();
+    }, { once: true });
+    heroVideo.src = src;
+    heroVideo.load();
+  }
+
+  // Descarga completa como blob: así el video es 100% buscable aunque el servidor
+  // no soporte peticiones por rango, y no hay esperas al saltar de cuadro.
+  function loadHeroVideo() {
+    if (videoReady || videoLoading || !desktopMQ.matches || !heroVideo) return;
+    videoLoading = true;
+    if (window.fetch && window.URL && URL.createObjectURL) {
+      fetch(HERO_VIDEO_SRC)
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
+        .then(function (blob) { attachHeroVideo(URL.createObjectURL(blob)); })
+        .catch(function () { attachHeroVideo(HERO_VIDEO_SRC); });
+    } else {
+      attachHeroVideo(HERO_VIDEO_SRC);
+    }
+  }
+
+  // Interpola currentTime hacia el objetivo para que el avance sea suave
+  function stepVideo() {
+    if (heroVideo.seeking) {            // esperar a que termine el seek anterior
+      videoRaf = window.requestAnimationFrame(stepVideo);
+      return;
+    }
+    var cur = heroVideo.currentTime;
+    var diff = videoTarget - cur;
+    if (Math.abs(diff) < 0.004) {
+      heroVideo.currentTime = videoTarget;
+      videoRaf = null;
+      return;
+    }
+    heroVideo.currentTime = cur + diff * 0.3;
+    videoRaf = window.requestAnimationFrame(stepVideo);
+  }
+
+  function scrubHeroVideo(progress) {
+    if (!videoReady || !heroVideo.duration) return;
+    videoTarget = Math.min(Math.max(progress, 0), 1) * (heroVideo.duration - 0.02);
+    if (!videoRaf) videoRaf = window.requestAnimationFrame(stepVideo);
+  }
+
+  loadHeroVideo();
+  desktopMQ.addEventListener('change', loadHeroVideo);
+
+  /* ---------- Logo del header -> logo grande de la estancia 3 (desktop) ---------- */
+  var headerLogo = document.getElementById('headerLogo');
+  var campoLogo = document.getElementById('campoLogo');
+  var logoGhost = document.createElement('div');
+  logoGhost.className = 'logo-ghost';
+  logoGhost.setAttribute('aria-hidden', 'true');
+  logoGhost.innerHTML = '<img src="img/logo-ariztia.png" alt="">';
+  document.body.appendChild(logoGhost);
+  var morphState = '';
+
+  function easeInOut(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+
+  function updateLogoMorph() {
+    if (!desktopMQ.matches || reduceMotion) {
+      if (morphState !== 'off') {
+        logoGhost.style.display = 'none';
+        headerLogo.classList.remove('is-morphing');
+        campoLogo.classList.remove('is-pending');
+        morphState = 'off';
+      }
+      return;
+    }
+    var vh = window.innerHeight;
+    var B = campoLogo.getBoundingClientRect();        // destino: logo grande (se mueve con el scroll)
+    var A = headerLogo.getBoundingClientRect();       // origen: logo del header
+    var T = vh * 0.42;                                 // altura a la que el logo grande "llega"
+    var p = (vh - B.top) / (vh - T);
+    p = Math.max(0, Math.min(1, p));
+    var exitedAbove = B.bottom < (header.offsetHeight || 60);
+
+    if (p <= 0 || exitedAbove) {
+      // antes de la estancia 3 (o ya pasada): logo en el header, logo grande oculto/visible según corresponda
+      logoGhost.style.display = 'none';
+      headerLogo.classList.remove('is-morphing');
+      campoLogo.classList.toggle('is-pending', !exitedAbove);
+      morphState = 'header';
+      return;
+    }
+    if (p >= 1) {
+      // llegó: el logo grande real toma el relevo
+      logoGhost.style.display = 'none';
+      headerLogo.classList.add('is-morphing');
+      campoLogo.classList.remove('is-pending');
+      morphState = 'campo';
+      return;
+    }
+    // en tránsito: interpolar posición y tamaño entre A y B
+    var e = easeInOut(p);
+    var x = A.left + (B.left - A.left) * e;
+    var y = A.top + (B.top - A.top) * e;
+    var w = A.width + (B.width - A.width) * e;
+    logoGhost.style.display = 'block';
+    logoGhost.style.width = w.toFixed(1) + 'px';
+    logoGhost.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
+    headerLogo.classList.add('is-morphing');
+    campoLogo.classList.add('is-pending');
+    morphState = 'moving';
+  }
+
+  /* ---------- Loop del comercial (estancia 3): carga y reproduce solo cuando está cerca ---------- */
+  var campoLoop = document.getElementById('campoLoop');
+  if (campoLoop) {
+    var loopLoaded = false;
+    function playLoop() {
+      if (!loopLoaded) {
+        campoLoop.src = campoLoop.getAttribute('data-src');
+        campoLoop.load();
+        loopLoaded = true;
+      }
+      var pr = campoLoop.play();
+      if (pr && pr.catch) pr.catch(function () {});
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) playLoop(); else if (loopLoaded) campoLoop.pause();
+        });
+      }, { rootMargin: '300px 0px' }).observe(campoLoop);
+    } else {
+      playLoop();
+    }
+  }
+
+  /* ---------- Parallax del hero, header y barra de progreso ---------- */
+  var hero = document.querySelector('.hero');
+  var heroInner = document.querySelector('.hero__inner');
+  var header = document.querySelector('.header');
+  var progress = document.getElementById('scrollProgress');
+  var ticking = false;
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () {
+      var y = window.scrollY || window.pageYOffset;
+      var heroH = hero.offsetHeight || 1;
+      // 0 = home completo a la vista, 1 = la sección 2 ya cubrió todo el home
+      var p = Math.min(y / heroH, 1);
+
+      if (!reduceMotion) {
+        if (videoReady) {
+          hero.style.backgroundPositionY = '';
+        } else {
+          hero.style.backgroundPositionY = 'calc(50% + ' + (y * 0.35).toFixed(1) + 'px)';
+        }
+        heroInner.style.setProperty('--hero-shift', (y * 0.18).toFixed(1) + 'px');
+        heroInner.style.setProperty('--hero-fade', (1 - p * 1.1).toFixed(3));
+      }
+
+      // el video avanza con el scroll y se detiene cuando el home deja de verse
+      scrubHeroVideo(reduceMotion ? 1 : p);
+
+      updateLogoMorph();
+
+      header.classList.toggle('is-scrolled', y > 10);
+
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = 'scaleX(' + (docH > 0 ? y / docH : 0).toFixed(4) + ')';
+
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ---------- Modales ---------- */
+  var videoModal = document.getElementById('videoModal');
+  var legalModal = document.getElementById('legalModal');
+  var videoFrame = document.getElementById('videoFrame');
+  var legalContent = document.getElementById('legalContent');
+  var lastFocus = null;
+
+  function openModal(modal) {
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('no-scroll');
+    var closeBtn = modal.querySelector('.modal__close');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeModal(modal) {
+    modal.hidden = true;
+    if (modal === videoModal) videoFrame.src = 'about:blank';   // detiene el video de YouTube
+    if (!document.querySelector('.modal:not([hidden])')) {
+      document.body.classList.remove('no-scroll');
+    }
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('.js-open-video').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      closeMenu();
+      openModal(videoModal);
+      videoFrame.src = videoFrame.getAttribute('data-src');
+    });
+  });
+
+  document.querySelectorAll('.js-close-modal').forEach(function (el) {
+    el.addEventListener('click', function () {
+      closeModal(el.closest('.modal'));
+    });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.modal:not([hidden])').forEach(closeModal);
+    if (nav.classList.contains('is-open')) closeMenu();
+  });
+
+  /* ---------- Documentos legales (contenido placeholder) ---------- */
+  var docs = {
+    bases: {
+      title: 'Bases legales de la promoción',
+      body: '<h3>1. Organizador</h3><p>Ariztía organiza la promoción "Al recetario del campo chileno le falta tu sabor", válida en todo el territorio nacional.</p>' +
+            '<h3>2. Participación</h3><p>Podrán participar personas naturales mayores de 18 años, residentes en Chile, que completen el formulario del sitio con una receta original y una fotografía.</p>' +
+            '<h3>3. Premios</h3><p>Se sortearán 20 Ollas Ariztía entre las recetas válidas recibidas durante la vigencia de la promoción.</p>' +
+            '<h3>4. Vigencia</h3><p>Texto pendiente de definición por el equipo legal.</p>'
+    },
+    terminos: {
+      title: 'Términos y condiciones del sitio web',
+      body: '<p>El uso de este sitio implica la aceptación de los presentes términos y condiciones. Contenido pendiente de definición por el equipo legal.</p>'
+    },
+    privacidad: {
+      title: 'Política de privacidad',
+      body: '<p>Los datos personales entregados en este formulario serán utilizados exclusivamente para gestionar la participación en la promoción, contactar a los ganadores y publicar las recetas seleccionadas.</p>' +
+            '<p>Contenido pendiente de definición por el equipo legal.</p>'
+    }
+  };
+
+  document.querySelectorAll('.js-legal').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var doc = docs[a.getAttribute('data-doc')];
+      if (!doc) return;
+      legalContent.innerHTML = '<h2>' + doc.title + '</h2>' + doc.body;
+      closeMenu();
+      openModal(legalModal);
+    });
+  });
+
+  /* ---------- Upload: mostrar nombre del archivo ---------- */
+  var fileInput = document.getElementById('imagen');
+  var uploadName = document.getElementById('uploadName');
+  fileInput.addEventListener('change', function () {
+    uploadName.textContent = fileInput.files.length ? fileInput.files[0].name : '';
+  });
+
+  /* ---------- Textareas autoajustables ---------- */
+  document.querySelectorAll('.form textarea').forEach(function (ta) {
+    ta.addEventListener('input', function () {
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+  });
+
+  /* ---------- Formulario en 2 pasos: navegación, validación y envío ---------- */
+  var form = document.getElementById('recipeForm');
+  var formSuccess = document.getElementById('formSuccess');
+  var stepsBar = document.getElementById('steps');
+  var stepPanels = form.querySelectorAll('.step');
+  var stepItems = stepsBar.querySelectorAll('.steps__item');
+  var currentStep = 1;
+
+  function markInvalid(el, invalid) {
+    var wrap = el.closest('.field') || el.closest('.check');
+    if (wrap) wrap.classList.toggle('is-invalid', invalid);
+  }
+
+  function fieldOk(el) {
+    if (el.type === 'checkbox') return el.checked;
+    if (el.type === 'file') return !el.required || el.files.length > 0;
+    if (el.classList.contains('js-time')) {
+      // horas + minutos: válido si el total del grupo es mayor a cero
+      var total = 0;
+      form.querySelectorAll('.js-time[data-group="' + el.getAttribute('data-group') + '"]').forEach(function (s) {
+        total += Number(s.value) || 0;
+      });
+      return total > 0;
+    }
+    var v = el.value.trim();
+    if (!v) return false;
+    if (el.type === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    if (el.type === 'tel') return v.replace(/\D/g, '').length >= 8;
+    if (el.type === 'number') return Number(v) >= (Number(el.min) || 0);
+    return true;
+  }
+
+  // valida los campos obligatorios de un paso; devuelve el primero inválido o null
+  function validateStep(n) {
+    var panel = form.querySelector('.step[data-step="' + n + '"]');
+    var first = null;
+    panel.querySelectorAll('[required]').forEach(function (el) {
+      var ok = fieldOk(el);
+      markInvalid(el, !ok);
+      if (!ok && !first) first = el;
+    });
+    var err = document.getElementById('formError' + n);
+    err.hidden = !first;
+    if (first) {
+      var wrap = first.closest('.field') || first.closest('.check');
+      (wrap || first).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      try { first.focus({ preventScroll: true }); } catch (e) {}
+    }
+    return first;
+  }
+
+  function goToStep(n) {
+    currentStep = n;
+    stepPanels.forEach(function (p) {
+      var active = p.getAttribute('data-step') === String(n);
+      p.hidden = !active;
+      p.classList.toggle('is-active', active);
+    });
+    stepItems.forEach(function (it) {
+      var k = Number(it.getAttribute('data-step'));
+      it.classList.toggle('is-active', k === n);
+      it.classList.toggle('is-done', k < n);
+      var btn = it.querySelector('.steps__btn');
+      if (k === n) btn.setAttribute('aria-current', 'step'); else btn.removeAttribute('aria-current');
+    });
+    stepsBar.classList.toggle('is-step-2', n === 2);
+    // dejar el inicio del formulario a la vista
+    var top = form.getBoundingClientRect().top + window.scrollY - 110;
+    if (Math.abs(window.scrollY - top) > 40) window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+
+  form.querySelectorAll('[required]').forEach(function (el) {
+    el.addEventListener('input', function () { markInvalid(el, false); });
+    el.addEventListener('change', function () { markInvalid(el, false); });
+  });
+
+  form.querySelector('.js-next').addEventListener('click', function () {
+    if (!validateStep(1)) goToStep(2);
+  });
+  form.querySelector('.js-prev').addEventListener('click', function () {
+    goToStep(1);
+  });
+
+  // los botones del indicador también navegan (al paso 2 solo si el 1 está completo)
+  stepItems.forEach(function (it) {
+    it.querySelector('.steps__btn').addEventListener('click', function () {
+      var k = Number(it.getAttribute('data-step'));
+      if (k === currentStep) return;
+      if (k === 2 && validateStep(1)) return;
+      goToStep(k);
+    });
+  });
+
+  // Enter en el paso 1 avanza en vez de enviar
+  form.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && currentStep === 1 && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      if (!validateStep(1)) goToStep(2);
+    }
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (validateStep(1)) { goToStep(1); return; }
+    if (validateStep(2)) return;
+
+    // TODO: reemplazar por el envío real al backend.
+    // var data = new FormData(form);
+    // fetch('/api/recetas', { method: 'POST', body: data })
+
+    stepsBar.hidden = true;
+    form.hidden = true;
+    formSuccess.hidden = false;
+    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();

@@ -1,0 +1,8 @@
+Copiar aqui las fuentes corporativas (desde un Windows: C:\Windows\Fonts):
+
+  bahnschrift.ttf   -> Bahnschrift (fuente variable, incluye Light/Regular/Bold y Condensed/SemiCondensed)
+  segoepr.ttf       -> Segoe Print
+  segoeprb.ttf      -> Segoe Print Bold
+
+Los nombres deben ser exactamente esos (minusculas). styles.css ya los referencia con @font-face.
+Mientras no esten, el sitio usa Barlow Condensed / Barlow Semi Condensed y Kalam desde Google Fonts.
