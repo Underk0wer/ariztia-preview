@@ -194,6 +194,8 @@
   var header = document.querySelector('.header');
   var progress = document.getElementById('scrollProgress');
   var campoSection = document.querySelector('.campo');
+  var lastY = window.scrollY || 0;
+  var headerHidden = false;
   var ticking = false;
 
   function onScroll() {
@@ -228,12 +230,17 @@
 
       header.classList.toggle('is-scrolled', y > 10);
 
-      // móvil: al llegar a la estancia 3 el header (logo + menú) se esconde hacia arriba
-      var hideHeader = false;
+      // móvil: en la estancia 3 el header (logo + menú) se esconde al bajar y reaparece al subir
       if (campoSection && !desktopMQ.matches && !nav.classList.contains('is-open')) {
-        hideHeader = campoSection.getBoundingClientRect().top <= (header.offsetHeight || 0);
+        var inCampo = campoSection.getBoundingClientRect().top <= (header.offsetHeight || 0);
+        if (!inCampo) headerHidden = false;
+        else if (y > lastY + 2) headerHidden = true;
+        else if (y < lastY - 2) headerHidden = false;
+      } else {
+        headerHidden = false;
       }
-      header.classList.toggle('is-hidden', hideHeader);
+      header.classList.toggle('is-hidden', headerHidden);
+      lastY = y;
 
       var docH = document.documentElement.scrollHeight - window.innerHeight;
       if (progress) progress.style.transform = 'scaleX(' + (docH > 0 ? y / docH : 0).toFixed(4) + ')';
