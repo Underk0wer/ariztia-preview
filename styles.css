@@ -372,6 +372,7 @@ a { color: inherit; }
 .intro {
   position: relative;
   z-index: 1;
+  scroll-margin-top: var(--header-h);   /* al llegar por #participa, el header no tapa el inicio del bloque negro */
   background: var(--black);
   color: #fff;
   text-align: center;
