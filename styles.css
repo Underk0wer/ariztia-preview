@@ -900,8 +900,11 @@ body.no-scroll { overflow: hidden; }
   .hero__title { margin: 0; line-height: 1; }
   .hero__title-script { display: block; font-size: clamp(48px, 4.4vw, 84px); line-height: 1.08; white-space: nowrap; }
   .hero__kit img {
-    width: clamp(416px, 40.4vw, 776px);
-    max-width: 100%;
+    /* Imagen_Productos_3 es casi cuadrada: se limita por ancho y por alto de pantalla para que siempre quepan los botones */
+    width: auto;
+    height: auto;
+    max-width: clamp(330px, 31vw, 600px);
+    max-height: 40vh;
     margin: 0 auto;
   }
   .hero__question {
@@ -1010,7 +1013,7 @@ body.no-scroll { overflow: hidden; }
   .hero__inner { padding-top: 20px; padding-bottom: 24px; }
   .hero__copy { margin-bottom: 10px; }
   .hero__title-script { font-size: clamp(40px, 3.6vw, 66px); }
-  .hero__kit img { width: clamp(360px, 32vw, 560px); }
+  .hero__kit img { max-width: clamp(280px, 25vw, 440px); max-height: 36vh; }
   .hero__cta { margin-top: 0; }
   .hero > .hero__inner > .hero__actions { margin-top: 22px; }
 }
