@@ -942,7 +942,7 @@ body.no-scroll { overflow: hidden; }
   }
   .intro__olla { gap: 30px; }
   .intro__olla img { width: 124px; }
-  .intro__script { font-size: 40px; max-width: 760px; }   /* dos líneas: 'Sube tu receta y participa por una de las' / '3 Ollas + productos Ariztía.' */
+  .intro__script { font-size: 40px; max-width: none; white-space: nowrap; text-wrap: initial; }   /* el corte lo marca .br-desktop tras 'una' */   /* dos líneas: 'Sube tu receta y participa por una de las' / '3 Ollas + productos Ariztía.' */
 
   /* Formulario */
   .form-card { padding: 60px 72px 68px; margin-bottom: -100px; max-width: 1080px; }
@@ -1019,7 +1019,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 @media (min-width: 1200px) {
-  .intro__script { font-size: 46px; max-width: 880px; }
+  .intro__script { font-size: 46px; }
 }
 
 @media (min-width: 1600px) {
