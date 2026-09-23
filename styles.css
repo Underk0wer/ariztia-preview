@@ -359,12 +359,16 @@ a { color: inherit; }
   position: relative;
 }
 .btn__play::after {
+  /* triángulo centrado ópticamente en el círculo; tamaño relativo al diámetro (font-size = diámetro) */
   content: "";
   position: absolute;
-  left: 8.5px; top: 5.5px;
-  border-left: 8px solid var(--red);
-  border-top: 5.5px solid transparent;
-  border-bottom: 5.5px solid transparent;
+  left: 50%; top: 50%;
+  width: 0; height: 0;
+  font-size: 22px;
+  border-left: .34em solid var(--red);
+  border-top: .2em solid transparent;
+  border-bottom: .2em solid transparent;
+  transform: translate(-36%, -50%);
 }
 .btn--submit { height: 54px; padding: 0 32px; font-size: 22px; border-radius: 8px; }
 
@@ -928,7 +932,7 @@ body.no-scroll { overflow: hidden; }
     min-width: clamp(240px, 17.4vw, 335px);
   }
   .btn__play { width: clamp(24px, 1.56vw, 30px); height: clamp(24px, 1.56vw, 30px); }
-  .btn__play::after { left: 38%; top: 25%; border-left-width: .5em; border-top-width: .33em; border-bottom-width: .33em; font-size: 22px; }
+  .btn__play::after { font-size: clamp(24px, 1.56vw, 30px); }
 
   /* Intro */
   .intro { padding-top: 96px; }
