@@ -551,7 +551,7 @@ a { color: inherit; }
   transition: color .25s;
 }
 /* ollas como indicador de paso: 1 cerrada roja / 2 gris (paso 1) → 1 abierta gris / 2 cerrada roja (paso 2) */
-.steps__icon { display: none; width: 44px; height: auto; flex: none; }
+.steps__icon { display: none; width: 35px; height: auto; flex: none; }
 .steps__label { white-space: nowrap; }
 .steps__item.is-active .steps__icon--active { display: block; }
 .steps__item.is-done .steps__icon--done { display: block; }
@@ -954,7 +954,7 @@ body.no-scroll { overflow: hidden; }
   #ingredientes, #preparacion { min-height: 132px; }
   .steps { margin-bottom: 36px; }
   .steps__btn { font-size: 16px; gap: 12px; }
-  .steps__icon { width: 64px; }
+  .steps__icon { width: 51px; }
   .steps__line { flex-basis: 110px; }
   .step__title { font-size: 24px; margin-bottom: 22px; }
   .form__note { font-size: 14px; }
