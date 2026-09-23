@@ -1122,8 +1122,8 @@ body.no-scroll { overflow: hidden; }
 }
 .ty__title { margin: 0 0 26px; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
 .ty__title-big, .ty__title-small { display: block; font-family: var(--font-script); font-weight: 400; }
-.ty__title-big   { font-size: clamp(56px, 16.5vw, 80px); }
-.ty__title-small { font-size: clamp(36px, 10.4vw, 52px); margin-top: 4px; white-space: nowrap; }
+.ty__title-big   { font-size: clamp(50px, 14.85vw, 72px); }   /* móvil: -10% */
+.ty__title-small { font-size: clamp(32px, 9.36vw, 47px); margin-top: 4px; white-space: nowrap; }
 .ty__text {
   margin: 0 0 14px;
   font-family: var(--font-head);
