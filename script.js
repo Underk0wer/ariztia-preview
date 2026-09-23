@@ -93,7 +93,7 @@
   var logoGhost = document.createElement('div');
   logoGhost.className = 'logo-ghost';
   logoGhost.setAttribute('aria-hidden', 'true');
-  logoGhost.innerHTML = '<img src="img/logo-ariztia.png" alt="">';
+  logoGhost.innerHTML = '<img src="img/logo-ariztia.svg" alt="">';
   document.body.appendChild(logoGhost);
   var morphState = '';
 

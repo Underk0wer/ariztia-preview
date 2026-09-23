@@ -858,7 +858,7 @@ body.no-scroll { overflow: hidden; }
     left: clamp(24px, 2.8vw, 54px);
     z-index: 2;
   }
-  .header__logo img { width: clamp(140px, 10.3vw, 200px); filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)); }
+  .header__logo img { width: clamp(140px, 10.3vw, 200px); }   /* el SVG nuevo ya trae su sombra */
   .header__menu { display: none; }
   .header__nav {
     position: static;
