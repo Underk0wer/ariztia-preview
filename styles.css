@@ -550,17 +550,12 @@ a { color: inherit; }
   cursor: pointer;
   transition: color .25s;
 }
-.steps__num {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #c9c9c9;
-  color: #9a9a9a;
-  font-size: 16px;
-  transition: background .25s, border-color .25s, color .25s, transform .25s;
-}
+/* ollas como indicador de paso: 1 cerrada roja / 2 gris (paso 1) → 1 abierta gris / 2 cerrada roja (paso 2) */
+.steps__icon { display: none; width: 44px; height: auto; flex: none; }
+.steps__label { white-space: nowrap; }
+.steps__item.is-active .steps__icon--active { display: block; }
+.steps__item.is-done .steps__icon--done { display: block; }
+.steps__item:not(.is-active):not(.is-done) .steps__icon--pending { display: block; }
 .steps__line {
   flex: 0 1 70px;
   min-width: 28px;
@@ -582,13 +577,8 @@ a { color: inherit; }
 .steps.is-step-2 .steps__line::after { transform: scaleX(1); }
 
 .steps__item.is-active .steps__btn { color: #222; }
-.steps__item.is-active .steps__num { background: var(--red); border-color: var(--red); color: #fff; transform: scale(1.08); }
-.steps__item.is-done .steps__btn { color: var(--red); }
-.steps__item.is-done .steps__num { background: #fff; border-color: var(--red); color: var(--red); }
-.steps__item.is-done .steps__num::before { content: "✓"; }
-.steps__item.is-done .steps__num { font-size: 0; }
-.steps__item.is-done .steps__num::before { font-size: 16px; }
-.steps__btn:focus-visible .steps__num { outline: 2px solid var(--red); outline-offset: 3px; }
+.steps__item.is-done .steps__btn { color: #777; }
+.steps__btn:focus-visible .steps__icon { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 6px; }
 .steps__btn[disabled] { cursor: not-allowed; }
 
 .step { border: 0; padding: 0; margin: 0; min-width: 0; }
@@ -963,7 +953,8 @@ body.no-scroll { overflow: hidden; }
   .step[data-step="2"] .field { margin-bottom: 18px; }
   #ingredientes, #preparacion { min-height: 132px; }
   .steps { margin-bottom: 36px; }
-  .steps__btn { font-size: 16px; }
+  .steps__btn { font-size: 16px; gap: 12px; }
+  .steps__icon { width: 64px; }
   .steps__line { flex-basis: 110px; }
   .step__title { font-size: 24px; margin-bottom: 22px; }
   .form__note { font-size: 14px; }
