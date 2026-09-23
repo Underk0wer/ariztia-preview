@@ -716,7 +716,7 @@ a { color: inherit; }
   align-items: center;
 }
 .campo__text { display: flex; flex-direction: column; align-items: center; }
-.campo__logo { width: 150px; }
+.campo__logo { width: 230px; }   /* móvil: logo más grande */
 .campo__logo.is-pending { opacity: 0; }
 .header__logo.is-morphing { visibility: hidden; }
 .logo-ghost {
@@ -735,7 +735,7 @@ a { color: inherit; }
   line-height: 1.05;
 }
 .campo__quote {
-  margin: 62px auto 0;
+  margin: 22px auto 0;   /* móvil: más cerca de 'El sabor del campo chileno' */
   max-width: 380px;
   font-family: var(--font-head);
   font-stretch: 75%;
