@@ -1121,14 +1121,17 @@ body.no-scroll { overflow: hidden; }
   align-items: center;
 }
 .ty__title {
-  margin: 0 0 22px;
+  margin: 18px 0 22px;
   font-family: var(--font-script);
   font-weight: 400;
-  font-size: clamp(27px, 8.8vw, 40px);
+  font-size: clamp(24px, 8vw, 36px);
   line-height: 1.15;
   text-wrap: balance;                 /* móvil: "¡Tu receta ya está" / "participando!" */
   text-shadow: 0 2px 12px rgba(0,0,0,.35);
 }
+.ty__title-big, .ty__title-small { display: block; }
+.ty__title-big { font-size: 2em; line-height: 1; }   /* "¡Tu receta" arriba, al doble del resto */
+.ty__title-small { white-space: nowrap; }
 .ty__text {
   margin: 0 0 24px;
   font-family: var(--font-cond);
