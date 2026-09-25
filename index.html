@@ -106,9 +106,33 @@
           <fieldset class="step is-active" data-step="1">
             <legend class="sr-only">Paso 1 de 2 · Tus datos</legend>
             <div class="form__grid">
-              <div class="field field--full">
+              <div class="field">
                 <label for="nombre">Nombre y apellido <span class="req">*</span></label>
                 <input type="text" id="nombre" name="nombre" required autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="region">Región <span class="req">*</span></label>
+                <div class="select">
+                  <select id="region" name="region" required autocomplete="address-level1">
+                    <option value="" selected disabled>Selecciona tu región</option>
+                    <option value="Arica y Parinacota">Arica y Parinacota</option>
+                    <option value="Tarapacá">Tarapacá</option>
+                    <option value="Antofagasta">Antofagasta</option>
+                    <option value="Atacama">Atacama</option>
+                    <option value="Coquimbo">Coquimbo</option>
+                    <option value="Valparaíso">Valparaíso</option>
+                    <option value="Metropolitana de Santiago">Metropolitana de Santiago</option>
+                    <option value="Libertador General Bernardo O&#39;Higgins">Libertador General Bernardo O'Higgins</option>
+                    <option value="Maule">Maule</option>
+                    <option value="Ñuble">Ñuble</option>
+                    <option value="Biobío">Biobío</option>
+                    <option value="La Araucanía">La Araucanía</option>
+                    <option value="Los Ríos">Los Ríos</option>
+                    <option value="Los Lagos">Los Lagos</option>
+                    <option value="Aysén del General Carlos Ibáñez del Campo">Aysén del General Carlos Ibáñez del Campo</option>
+                    <option value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
+                  </select>
+                </div>
               </div>
               <div class="field">
                 <label for="email">E-mail <span class="req">*</span></label>
